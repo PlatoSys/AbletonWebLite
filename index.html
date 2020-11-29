@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ableton Live Lite</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/0e49173ff3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="app.css">
+
+</head>
+<header>
+    <div class="header">
+        <div class="metronome">
+
+            <div class="metronome-div">
+                <h1><span class="badge badge-secondary"> <input value="120" type="text" id="bpmInput"
+                            class="form-control badge-secondary">
+                    </span></h1>
+            </div>
+            <div class="metronome-power">
+                <button id="metronomeButton" onclick="MetronomeOnOff(this)" metronome="true" type="button"
+                    class="btn btn-secondary"><i class="fas fa-dot-circle"></i></button>
+            </div>
+        </div>
+
+        <div class="head-buttons">
+            <button type="button" onclick="start()" class="btn btn-secondary"><i class="fas fa-play"></i></button>
+            <button type="button" onclick="stop()" class="btn btn-secondary"><i class="fas fa-stop"></i></button>
+            <button type="button" class="btn btn-secondary"><i class="fas fa-circle"></i></button>
+
+        </div>
+        <div class="instrument">
+            <div class="keycapture">
+                <button type="button" playable="true" onclick="OnOff(this)" id="OnOff" class="btn btn-secondary"> <span
+                        class="badge">
+                        <i class="fas fa-keyboard fa-4x"></i>
+                    </span></button>
+            </div>
+            <div class="instrument-selection">
+                <select class="custom-select custom-select-lg mb-3">
+                    <option selected>Instruments..</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <button type="button" class="btn btn-secondary">Select</button>
+            </div>
+
+        </div>
+    </div>
+</header>
+<section id="player-section" onkeypress="keyPlay()">
+    <div class="player-panel">
+        Hello
+    </div>
+    <div class="player" onkeypress="keyPlay()" id="playerDiv">
+        <div class="notes">
+            <div class="movingLine"></div>
+            <div class="line">
+                <div class="note white-key" id="C5"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv moveLine">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="B"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note black-key" id="AS"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="A"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note black-key" id="GS"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="G"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note black-key" id="FS"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="F"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="E"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note black-key" id="DS"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="D"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note black-key" id="CS"><button onclick="playNote(this)" type="button"
+                        class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+            <div class="line">
+                <div class="note white-key" id="C"><button onclick="playNote(this)" type="button" class="btn "></button>
+                </div>
+                <div class="notesfordiv">
+
+                </div>
+            </div>
+        </div>
+        <div class=""></div>
+
+    </div>
+</section>
+<section id="rack-section">
+    <div class="item">
+        <div class="resizer ne"></div>
+        <div class="resizer nw"></div>
+        <div class="resizer sw"></div>
+        <div class="resizer se"></div>
+    </div>
+</section>
+<footer>
+
+</footer>
+
+
+<body>
+</body>
+
+
+<script src="app.js"></script>
+
+</html>

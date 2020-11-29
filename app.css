@@ -1,0 +1,194 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header .metronome {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header .metronome .metronome-div {
+  margin-left: 10px;
+  margin-right: 5px;
+  height: 50px;
+}
+
+.header .metronome .metronome-div h1 {
+  height: 100%;
+}
+
+.header .metronome .metronome-div h1 span {
+  height: 100%;
+}
+
+.header .metronome .metronome-power button {
+  margin-top: 6px;
+  height: 50px;
+}
+
+.header .metronome .metronome-power button[metronome="true"] {
+  background-color: #ffa600;
+}
+
+.header .head-buttons {
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 5px;
+}
+
+.header .head-buttons button {
+  height: 50px;
+  margin-right: 10px;
+  width: 50%;
+}
+
+.header .instrument {
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-right: 5%;
+  margin-top: 10px;
+}
+
+.header .instrument .keycapture {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header .instrument .keycapture button {
+  padding: 0px;
+}
+
+.header .instrument .keycapture button span {
+  padding-bottom: 0;
+}
+
+.header .instrument .keycapture button[playable="true"] {
+  background-color: #ffa600;
+}
+
+.header .instrument .instrument-selection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#player-section {
+  background-color: #4e4e4e;
+  margin-top: 20px;
+  width: 100%;
+  height: 1000px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#player-section .player-panel {
+  width: 100px;
+}
+
+#player-section .player {
+  margin-top: 50px;
+  width: 80%;
+}
+
+#player-section .player .notes {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+#player-section .player .notes .line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  outline: 1px #beb8b8 solid;
+  width: 100%;
+}
+
+#player-section .player .notes .line .notesfordiv {
+  width: 100%;
+  outline: 1px #beb8b8 solid;
+}
+
+#player-section .player .notes .line .note {
+  width: 3%;
+  outline: 1px #4e4e4e solid;
+  height: 30px;
+  background-color: blue;
+}
+
+#player-section .player .notes .line .note button {
+  width: 100%;
+  height: 100%;
+}
+
+#player-section .player .notes .line .white-key {
+  background-color: lightblue;
+}
+
+#player-section .player .notes .line .black-key {
+  background-color: black;
+}
+
+#player-section .player .notes .verticalLine {
+  position: absolute;
+  margin-left: 20px;
+  border-left: 3px solid green;
+  height: 390px;
+}
+
+#player-section .player .notes .metronomeLine {
+  position: absolute;
+  margin-left: 20px;
+  border-left: 3px solid #8cd88c;
+  height: 390px;
+}
+
+#player-section .player .movingLine {
+  position: absolute;
+  margin-left: 20px;
+  border-left: 3px solid green;
+  height: 390px;
+}
+/*# sourceMappingURL=app.css.map */

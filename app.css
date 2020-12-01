@@ -173,22 +173,21 @@
 
 #player-section .player .notes .verticalLine {
   position: absolute;
-  margin-left: 20px;
-  border-left: 3px solid green;
+  border-left: 2px solid #292929;
   height: 390px;
+  z-index: 99;
 }
 
 #player-section .player .notes .metronomeLine {
   position: absolute;
-  margin-left: 20px;
-  border-left: 3px solid #8cd88c;
+  border-left: 2px solid #afafaf;
   height: 390px;
 }
 
 #player-section .player .movingLine {
+  z-index: 100;
   position: absolute;
-  margin-left: 20px;
-  border-left: 3px solid green;
+  border-left: 3px solid #252525;
   height: 390px;
 }
 /*# sourceMappingURL=app.css.map */

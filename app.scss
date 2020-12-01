@@ -117,21 +117,20 @@ $yellow-color: rgb(255, 166, 0);
       }
       .verticalLine {
         position: absolute;
-        margin-left: 20px;
-        border-left: 3px solid green;
+        border-left: 2px solid rgb(41, 41, 41);
         height: 390px;
+        z-index: 99;
       }
       .metronomeLine {
         position: absolute;
-        margin-left: 20px;
-        border-left: 3px solid rgb(140, 216, 140);
+        border-left: 2px solid rgb(175, 175, 175);
         height: 390px;
       }
     }
     .movingLine {
+      z-index: 100;
       position: absolute;
-      margin-left: 20px;
-      border-left: 3px solid green;
+      border-left: 3px solid rgb(37, 37, 37);
       height: 390px;
     }
   }

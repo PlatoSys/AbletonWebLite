@@ -27,8 +27,11 @@
         </div>
 
         <div class="head-buttons">
+
             <button type="button" onclick="start()" class="btn btn-secondary"><i class="fas fa-play"></i></button>
+            <button type="button" onclick="pause()" class="btn btn-secondary"><i class="fas fa-pause"></i></button>
             <button type="button" onclick="stop()" class="btn btn-secondary"><i class="fas fa-stop"></i></button>
+
             <button type="button" class="btn btn-secondary"><i class="fas fa-circle"></i></button>
 
         </div>
@@ -58,7 +61,6 @@
     </div>
     <div class="player" onkeypress="keyPlay()" id="playerDiv">
         <div class="notes">
-            <div class="movingLine"></div>
             <div class="line">
                 <div class="note white-key" id="C5"><button onclick="playNote(this)" type="button"
                         class="btn "></button>

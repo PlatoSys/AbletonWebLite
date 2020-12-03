@@ -88,10 +88,7 @@
 
 window.onresize = reportWindowSize;
 
-let recordedNotes = new Object();
-recordedNotes = {
-
-}
+let recordedNotes = {};
 
 
 let keyboardCanPlay = document.querySelector('#OnOff').getAttribute('playable');
@@ -160,6 +157,7 @@ function start(){
     let bpm = (60/parseInt(document.querySelector('#bpmInput').value)) * 1000;
     clearInterval(timer);
     clearInterval(movingLine);
+
     if(metronome == 'true'){
         let audio = new Audio(`/Notes/metronomesound.mp3`);
         audio.play();
@@ -199,7 +197,6 @@ function moveLine(){
     let firstMetronomeLine = document.querySelector('.metronomeLine');
     let Speed = (parseInt(firstMetronomeLine.offsetLeft) - playerPanelWidth - noteLength)/50;
 
-
     previousPos = parseInt(document.querySelector('.movingLine').offsetLeft);
     LineDoMove.style.left = `${previousPos + Speed}px`;
     let CurrentPosition = LineDoMove.style.left.slice(0,LineDoMove.style.left.length - 2);
@@ -208,6 +205,18 @@ function moveLine(){
     if(CurrentPosition > LeftSide && CurrentPosition < RightSide){
         LineDoMove.style.left = `${playerPanelWidth + noteLength + 2}px`;
     }
+
+    playRecording = LineDoMove.style.left;
+    // console.log(recordedNotes);
+    if(recordedNotes[playRecording] != undefined){
+        let PlayIt = JSON.parse(recordedNotes[playRecording]);
+        PlayIt.forEach(eachNote => {
+            console.log(eachNote);
+            keyPlayNote(eachNote[2]);
+        });
+
+    }
+
 
 }
 
@@ -265,7 +274,7 @@ function colorKeys(current){
     }, 100);
 }
 
-function keyPlay(ev) {
+document.addEventListener('keypress', ev => {
     let Xposition = document.querySelector('.movingLine').style.left;
     let NoteDiv = document.createElement('div');
     NoteDiv.style.width = '30px';
@@ -285,6 +294,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`C`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"C"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"C"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -294,7 +311,15 @@ function keyPlay(ev) {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`CS`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"CS"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"CS"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -305,6 +330,15 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`D`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"D"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"D"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -315,6 +349,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`DS`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"DS"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"DS"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -325,6 +367,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`E`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"E"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"E"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -335,6 +385,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`F`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"F"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"F"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -345,6 +403,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`FS`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"FS"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"FS"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv); 
         colorKeys(key.firstChild);
     }
@@ -355,6 +421,15 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`G`);
         NoteDiv.classList.add(`${Xposition}`)
+
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"G"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"G"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -365,6 +440,15 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`GS`);
         NoteDiv.classList.add(`${Xposition}`)
+
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"GS"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"GS"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -375,6 +459,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`A`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"A"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"A"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -385,6 +477,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`AS`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"AS"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"AS"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -395,6 +495,14 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`B`);
         NoteDiv.classList.add(`${Xposition}`)
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"B"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"B"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
@@ -405,8 +513,17 @@ function keyPlay(ev) {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`C5`);
         NoteDiv.classList.add(`${Xposition}`)
+
+
+        if(recordedNotes[Xposition] == undefined){
+            recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"C5"]]'].toString();
+        } else {
+            let temp = '[' + recordedNotes[Xposition].slice(1,recordedNotes[Xposition].length-1) + ',' + [`["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"C5"]'].toString() + ']';
+            recordedNotes[Xposition] = temp;
+        }
+
         notes.appendChild(NoteDiv);
         colorKeys(key.firstChild);
     }
-}
+})
 

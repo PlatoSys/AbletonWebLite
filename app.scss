@@ -80,7 +80,13 @@ $yellow-color: rgb(255, 166, 0);
   height: 1000px;
   display: flex;
   .player-panel {
-    width: 100px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    div {
+      margin-left: 20px;
+      margin-top: 20px;
+    }
   }
   .player {
     margin-top: 50px;

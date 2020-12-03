@@ -89,11 +89,13 @@
 window.onresize = reportWindowSize;
 
 let recordedNotes = {};
-
-
+let savedRecordings = {};
+let savedNums = 0;
+let saveRecordBtn = document.querySelector('#saveRecordBtn')
 let keyboardCanPlay = document.querySelector('#OnOff').getAttribute('playable');
 let metronome = document.querySelector('#metronomeButton').getAttribute('metronome');
 let timer;
+let clearNotes = document.querySelector('#clearNotes');
 let noteLength = parseInt(document.querySelector('.note').offsetWidth);
 let verticalLine1 = document.createElement('div');
 verticalLine1.classList.add('verticalLine');
@@ -211,13 +213,23 @@ function moveLine(){
     if(recordedNotes[playRecording] != undefined){
         let PlayIt = JSON.parse(recordedNotes[playRecording]);
         PlayIt.forEach(eachNote => {
-            console.log(eachNote);
             keyPlayNote(eachNote[2]);
         });
-
     }
+    if(savedRecordings[0] != undefined){
+        for(let i = 0;i <savedNums;i++){
+            if(savedRecordings[i][playRecording] != undefined){
+                let playSavedNote = JSON.parse(savedRecordings[i][playRecording]);
+                playSavedNote.forEach(element => {
+                    keyPlayNote(element[2])
+                });
+            }
 
-
+        }
+    }
+    // savedRecordings.forEach(element => {
+    //     console.log(element);
+    // });
 }
 
 function metronomeSound(){
@@ -274,6 +286,28 @@ function colorKeys(current){
     }, 100);
 }
 
+clearNotes.addEventListener('click', ev => {
+    let Clear = document.querySelectorAll('.RecordedNote');
+    Clear.forEach(element => {
+        element.remove();
+    });
+    recordedNotes = {};
+})
+
+saveRecordBtn.addEventListener('click', ev => {
+    let Clear = document.querySelectorAll('.RecordedNote');
+    Clear.forEach(element => {
+        element.remove();
+    });
+    savedRecordings[savedNums] = recordedNotes;
+    recordedNotes = {};
+    savedNums++;
+    console.log(savedRecordings);
+});
+
+
+
+
 document.addEventListener('keypress', ev => {
     let Xposition = document.querySelector('.movingLine').style.left;
     let NoteDiv = document.createElement('div');
@@ -293,6 +327,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`C`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -311,6 +346,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`CS`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`);
 
         if(recordedNotes[Xposition] == undefined){
@@ -329,6 +365,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`D`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -348,6 +385,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`DS`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -366,6 +404,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`E`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -384,6 +423,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`F`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -402,6 +442,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`FS`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -420,6 +461,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`G`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
 
@@ -439,6 +481,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`GS`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
 
@@ -458,6 +501,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`A`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -476,6 +520,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`AS`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -494,6 +539,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`B`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
         if(recordedNotes[Xposition] == undefined){
@@ -512,6 +558,7 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.left = `${Xposition}`;
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`C5`);
+        NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
 
 

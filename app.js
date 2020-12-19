@@ -1,96 +1,9 @@
-// ===========================================
-// const el = document.querySelector(".item");
-
-// let isResizing = false;
-
-// el.addEventListener("mousedown", mousedown);
-
-// function mousedown(e) {
-//   window.addEventListener("mousemove", mousemove);
-//   window.addEventListener("mouseup", mouseup);
-
-//   let prevX = e.clientX;
-//   let prevY = e.clientY;
-
-//   function mousemove(e) {
-//     if (!isResizing) {
-//       let newX = prevX - e.clientX;
-//       let newY = prevY - e.clientY;
-
-//       const rect = el.getBoundingClientRect();
-
-//       el.style.left = rect.left - newX + "px";
-//       el.style.top = rect.top - newY + "px";
-
-//       prevX = e.clientX;
-//       prevY = e.clientY;
-//     }
-//   }
-
-//   function mouseup() {
-//     window.removeEventListener("mousemove", mousemove);
-//     window.removeEventListener("mouseup", mouseup);
-//   }
-// }
-
-// const resizers = document.querySelectorAll(".resizer");
-// let currentResizer;
-
-// for (let resizer of resizers) {
-//   resizer.addEventListener("mousedown", mousedown);
-
-//   function mousedown(e) {
-//     currentResizer = e.target;
-//     isResizing = true;
-
-//     let prevX = e.clientX;
-//     let prevY = e.clientY;
-
-//     window.addEventListener("mousemove", mousemove);
-//     window.addEventListener("mouseup", mouseup);
-
-//     function mousemove(e) {
-//       const rect = el.getBoundingClientRect();
-
-//       if (currentResizer.classList.contains("se")) {
-//         el.style.width = rect.width - (prevX - e.clientX) + "px";
-//         el.style.height = rect.height - (prevY - e.clientY) + "px";
-//       } else if (currentResizer.classList.contains("sw")) {
-//         el.style.width = rect.width + (prevX - e.clientX) + "px";
-//         el.style.height = rect.height - (prevY - e.clientY) + "px";
-//         el.style.left = rect.left - (prevX - e.clientX) + "px";
-//       } else if (currentResizer.classList.contains("ne")) {
-//         el.style.width = rect.width - (prevX - e.clientX) + "px";
-//         el.style.height = rect.height + (prevY - e.clientY) + "px";
-//         el.style.top = rect.top - (prevY - e.clientY) + "px";
-//       } else {
-//         el.style.width = rect.width + (prevX - e.clientX) + "px";
-//         el.style.height = rect.height + (prevY - e.clientY) + "px";
-//         el.style.top = rect.top - (prevY - e.clientY) + "px";
-//         el.style.left = rect.left - (prevX - e.clientX) + "px";
-//       }
-
-//       prevX = e.clientX;
-//       prevY = e.clientY;
-//     }
-
-//     function mouseup() {
-//       window.removeEventListener("mousemove", mousemove);
-//       window.removeEventListener("mouseup", mouseup);
-//       isResizing = false;
-//     }
-//   }
-// }
-// ==================
-
-
-
 
 window.onresize = reportWindowSize;
 
 let recordedNotes = {};
 let savedRecordings = {};
-let savedNums = 0;
+let savedNums = localStorage.length;
 let saveRecordBtn = document.querySelector('#saveRecordBtn')
 let keyboardCanPlay = document.querySelector('#OnOff').getAttribute('playable');
 let metronome = document.querySelector('#metronomeButton').getAttribute('metronome');
@@ -109,6 +22,8 @@ movingLine.classList.add('movingLine');
 movingLine.style.left = `${playerPanelWidth + noteLength}px`;
 let notes = document.querySelector('.notes');
 notes.appendChild(movingLine);
+recordingButton = false
+let patterns = document.querySelector('#patterns');
 
 
 function reportWindowSize() {
@@ -154,6 +69,32 @@ function reportWindowSize() {
 
 })();
 
+(function () {
+    for(let i = 0 ;i<savedNums ;i++){
+        let Data = localStorage.getItem(`${i}template`);
+        if (Data != null){
+            console.log('ara')
+            let pattern = document.createElement('div');
+            let h4 = document.createElement('h4');
+            let patternBtn = document.createElement('button');
+            let patternName = document.querySelector('#saveInput');
+        
+            pattern.classList.add('pattern');
+            patternBtn.classList.add('btn');
+            patternBtn.classList.add('btn-secondary');
+            pattern.id = `pattern${savedNums}`;
+            patternBtn.setAttribute('onclick','removePattern(this)');
+            patternBtn.setAttribute('patternNum',`pattern${i}`);
+            pattern.appendChild(h4);
+            h4.innerHTML = patternName.value;
+            pattern.appendChild(patternBtn);
+            patternBtn.innerHTML = 'X';
+            pattern.id = `pattern${i}`
+            patterns.appendChild(pattern);
+        }
+    }
+
+})();
 
 function start(){
     let bpm = (60/parseInt(document.querySelector('#bpmInput').value)) * 1000;
@@ -167,7 +108,6 @@ function start(){
 
         let LineDoMove = document.querySelector('.movingLine');
         let noteLength = parseInt(document.querySelector('.note').offsetWidth);
-        let lineWidth = document.querySelector('.line');
         let firstMetronomeLine = document.querySelector('.metronomeLine');
         let Speed = (parseInt(firstMetronomeLine.offsetLeft) - playerPanelWidth - noteLength)/50;
     
@@ -180,7 +120,6 @@ function start(){
 function pause(){
     clearInterval(timer);
     clearInterval(movingLine);
-    console.log('paused');
 }
 
 function stop(){
@@ -195,7 +134,6 @@ function moveLine(){
     let lastMetronomeLine = document.querySelector('.lastmetronomeLine');
     let LineDoMove = document.querySelector('.movingLine');
     let noteLength = parseInt(document.querySelector('.note').offsetWidth);
-    let lineWidth = document.querySelector('.line');
     let firstMetronomeLine = document.querySelector('.metronomeLine');
     let Speed = (parseInt(firstMetronomeLine.offsetLeft) - playerPanelWidth - noteLength)/50;
 
@@ -213,23 +151,51 @@ function moveLine(){
     if(recordedNotes[playRecording] != undefined){
         let PlayIt = JSON.parse(recordedNotes[playRecording]);
         PlayIt.forEach(eachNote => {
+            'implement here';
+            console.log('each',eachNote);
             keyPlayNote(eachNote[2]);
         });
     }
-    if(savedRecordings[0] != undefined){
-        for(let i = 0;i <savedNums;i++){
-            if(savedRecordings[i][playRecording] != undefined){
-                let playSavedNote = JSON.parse(savedRecordings[i][playRecording]);
-                playSavedNote.forEach(element => {
-                    keyPlayNote(element[2])
-                });
-            }
 
+    for(let i = 0;i<savedNums;i++){
+        let Data = localStorage.getItem(`${i}template`);
+        if (Data != null){
+            console.log(localStorage);
+            iterator = JSON.parse(Data);
+            if(iterator[playRecording] != null){
+                let playNotes = JSON.parse(iterator[playRecording]);
+                keyPlayNote(playNotes[0][2]);
+            }
         }
     }
-    // savedRecordings.forEach(element => {
-    //     console.log(element);
-    // });
+
+    // if(savedRecordings[0] != undefined){
+    //     for(let i = 0;i <savedNums;i++){
+    //         if(savedRecordings[i][playRecording] != undefined){
+    //             let playSavedNote = JSON.parse(savedRecordings[i][playRecording]);
+    //             playSavedNote.forEach(element => {
+
+    //                 keyPlayNote(element[2])
+    //             });
+    //         }
+
+    //     }
+    // }
+
+    // if(savedRecordings[0] != undefined){
+    //     for(let i = 0;i <savedNums;i++){
+    //         if(savedRecordings[i][playRecording] != undefined){
+    //             let playSavedNote = JSON.parse(savedRecordings[i][playRecording]);
+    //             playSavedNote.forEach(element => {
+
+    //                 keyPlayNote(element[2])
+    //             });
+    //         }
+
+    //     }
+    // }
+
+
 }
 
 function metronomeSound(){
@@ -252,6 +218,16 @@ function MetronomeOnOff(btn){
     }
 }
 
+function recording(btn){
+    if(btn.getAttribute('recording') == 'true'){
+        btn.setAttribute('recording',false);
+        recordingButton = 'false';
+    } else {
+        btn.setAttribute('recording',true);
+        recordingButton = 'true';
+    }
+}
+
 function OnOff(btn){
     if(btn.getAttribute('playable') == 'true'){
         btn.setAttribute('playable',false);
@@ -260,6 +236,16 @@ function OnOff(btn){
         btn.setAttribute('playable',true);
         keyboardCanPlay = 'true';
     }
+}
+
+function removePattern(pattern){
+    let patternNum = pattern.getAttribute('patternnum');
+    let removePattern = document.querySelector(`#${patternNum}`)
+    let patternID = patternNum.slice(7,patternNum.length);
+
+    console.log(patternID,removePattern)
+    localStorage.removeItem(`${patternID}template`);
+    removePattern.remove();
 }
 
 function playNote(note){
@@ -299,14 +285,39 @@ saveRecordBtn.addEventListener('click', ev => {
     Clear.forEach(element => {
         element.remove();
     });
-    savedRecordings[savedNums] = recordedNotes;
+    localStorage.setItem(`${savedNums}template`,JSON.stringify(recordedNotes));
+    // localStorage.clear();
     recordedNotes = {};
+
+    let pattern = document.createElement('div');
+    let h4 = document.createElement('h4');
+    let patternBtn = document.createElement('button');
+    let patternName = document.querySelector('#saveInput');
+
+    pattern.classList.add('pattern');
+    patternBtn.classList.add('btn');
+    patternBtn.classList.add('btn-secondary');
+    pattern.id = `pattern${savedNums}`;
+    patternBtn.setAttribute('onclick','removePattern(this)');
+    patternBtn.setAttribute('patternNum',`pattern${savedNums}`);
+    pattern.appendChild(h4);
+    h4.innerHTML = patternName.value;
+    pattern.appendChild(patternBtn);
+    patternBtn.innerHTML = 'X';
+    
+    patterns.appendChild(pattern);
     savedNums++;
-    console.log(savedRecordings);
+    
+    
 });
 
 
+function removeCertainNote(current){
 
+    let left = current.style.left;
+    recordedNotes[left] = []
+    current.remove();
+}
 
 document.addEventListener('keypress', ev => {
     let Xposition = document.querySelector('.movingLine').style.left;
@@ -329,6 +340,12 @@ document.addEventListener('keypress', ev => {
         NoteDiv.classList.add(`C`);
         NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"C"]]'].toString();
@@ -338,7 +355,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyW'){
         keyPlayNote('CS');
@@ -348,6 +364,13 @@ document.addEventListener('keypress', ev => {
         NoteDiv.classList.add(`CS`);
         NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"CS"]]'].toString();
@@ -357,7 +380,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyS'){
         keyPlayNote('D');
@@ -367,6 +389,13 @@ document.addEventListener('keypress', ev => {
         NoteDiv.classList.add(`D`);
         NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"D"]]'].toString();
@@ -377,7 +406,6 @@ document.addEventListener('keypress', ev => {
 
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyE'){
         keyPlayNote('DS');
@@ -386,7 +414,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`DS`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"DS"]]'].toString();
@@ -396,7 +431,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyD'){
         keyPlayNote('E');
@@ -405,7 +439,15 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`E`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"E"]]'].toString();
@@ -415,7 +457,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyF'){
         keyPlayNote('F');
@@ -424,7 +465,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`F`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"F"]]'].toString();
@@ -434,7 +482,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyT'){
         keyPlayNote('FS');
@@ -443,7 +490,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`FS`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"FS"]]'].toString();
@@ -453,7 +507,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv); 
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyG'){
         keyPlayNote('G');
@@ -462,7 +515,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`G`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
 
         if(recordedNotes[Xposition] == undefined){
@@ -473,7 +533,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyY'){
         keyPlayNote('GS');
@@ -482,7 +541,15 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`GS`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+
+        if(recordingButton == false){
+            return;
+        }
 
 
         if(recordedNotes[Xposition] == undefined){
@@ -493,7 +560,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyH'){
         keyPlayNote('A');
@@ -502,7 +568,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`A`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"A"]]'].toString();
@@ -512,7 +585,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyU'){
         keyPlayNote('AS');
@@ -521,7 +593,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`AS`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"AS"]]'].toString();
@@ -531,7 +610,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyJ'){
         keyPlayNote('B');
@@ -540,7 +618,14 @@ document.addEventListener('keypress', ev => {
         NoteDiv.style.top = `${key.offsetTop}px`;
         NoteDiv.classList.add(`B`);
         NoteDiv.classList.add(`RecordedNote`);
-        NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.classList.add(`${Xposition}`);
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
         if(recordedNotes[Xposition] == undefined){
             recordedNotes[Xposition] = [`[["` + Xposition + `"`,`"` +`${key.offsetTop}px` + `"`,'"B"]]'].toString();
@@ -550,7 +635,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
     if(event.code == 'KeyK'){
         keyPlayNote('C5');
@@ -560,6 +644,13 @@ document.addEventListener('keypress', ev => {
         NoteDiv.classList.add(`C5`);
         NoteDiv.classList.add(`RecordedNote`);
         NoteDiv.classList.add(`${Xposition}`)
+        NoteDiv.setAttribute('ondblclick','removeCertainNote(this)')
+
+        colorKeys(key.firstChild);
+
+        if(recordingButton == false){
+            return;
+        }
 
 
         if(recordedNotes[Xposition] == undefined){
@@ -570,7 +661,6 @@ document.addEventListener('keypress', ev => {
         }
 
         notes.appendChild(NoteDiv);
-        colorKeys(key.firstChild);
     }
 })
 

@@ -32,7 +32,8 @@
             <button type="button" onclick="pause()" class="btn btn-secondary"><i class="fas fa-pause"></i></button>
             <button type="button" onclick="stop()" class="btn btn-secondary"><i class="fas fa-stop"></i></button>
 
-            <button type="button" class="btn btn-secondary"><i class="fas fa-circle"></i></button>
+            <button type="button" onclick="recording(this)" recording="false" class="btn btn-secondary"><i
+                    class="fas fa-circle"></i></button>
 
         </div>
         <div class="instrument">
@@ -44,10 +45,8 @@
             </div>
             <div class="instrument-selection">
                 <select class="custom-select custom-select-lg mb-3">
-                    <option selected>Instruments..</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option selected>Piano</option>
+                    <option value="1">Drums</option>
                 </select>
                 <button type="button" class="btn btn-secondary">Select</button>
             </div>
@@ -61,9 +60,11 @@
             <button class="btn btn-secondary" id="clearNotes">Clear</button>
         </div>
         <div class="save">
+            <input type="text" id="saveInput" class="form-control" value="Default" placeholder="Username" id="usr"
+                name="username">
             <button class="btn btn-secondary" id="saveRecordBtn">Save</button>
         </div>
-        <div class="patterns">
+        <div class="patterns" id='patterns'>
 
         </div>
     </div>

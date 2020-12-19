@@ -46,6 +46,9 @@ $yellow-color: rgb(255, 166, 0);
       margin-right: 10px;
       width: 50%;
     }
+    button[recording="true"] {
+      background-color: $yellow-color;
+    }
   }
   .instrument {
     height: 50px;
@@ -83,9 +86,35 @@ $yellow-color: rgb(255, 166, 0);
     width: 200px;
     display: flex;
     flex-direction: column;
-    div {
+    .clear {
       margin-left: 20px;
       margin-top: 20px;
+    }
+    .save {
+      margin-left: 20px;
+      margin-top: 20px;
+      width: 150px;
+      .saveInput {
+        width: 50%;
+        margin-left: 20px;
+      }
+      display: flex;
+      justify-content: space-between;
+    }
+    .patterns {
+      margin-left: 20px;
+      margin-top: 20px;
+      .pattern {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        width: 150px;
+        background-color: aliceblue;
+        display: flex;
+        button {
+          margin-left: auto;
+        }
+      }
     }
   }
   .player {

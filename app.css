@@ -70,6 +70,10 @@
   width: 50%;
 }
 
+.header .head-buttons button[recording="true"] {
+  background-color: #ffa600;
+}
+
 .header .instrument {
   height: 50px;
   display: -webkit-box;
@@ -128,9 +132,46 @@
           flex-direction: column;
 }
 
-#player-section .player-panel div {
+#player-section .player-panel .clear {
   margin-left: 20px;
   margin-top: 20px;
+}
+
+#player-section .player-panel .save {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#player-section .player-panel .save .saveInput {
+  width: 50%;
+  margin-left: 20px;
+}
+
+#player-section .player-panel .patterns {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+#player-section .player-panel .patterns .pattern {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  background-color: aliceblue;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#player-section .player-panel .patterns .pattern button {
+  margin-left: auto;
 }
 
 #player-section .player {
